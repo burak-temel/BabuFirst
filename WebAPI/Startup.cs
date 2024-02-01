@@ -69,9 +69,10 @@ namespace WebAPI
 
             services.AddCors(options =>
             {
-                options.AddPolicy(
-                    "AllowOrigin",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                options.AddPolicy("MyCorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
             });
 
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -132,11 +133,14 @@ namespace WebAPI
                     break;
             }
 
+
             app.UseDeveloperExceptionPage();
 
             app.ConfigureCustomExceptionMiddleware();
 
             _ = app.UseDbOperationClaimCreator();
+
+            app.UseCors("MyCorsPolicy");
 
             if (!env.IsProduction())
             {
@@ -148,7 +152,6 @@ namespace WebAPI
                     c.DocExpansion(DocExpansion.None);
                 });
             }
-            app.UseCors("AllowOrigin");
 
             app.UseHttpsRedirection();
 
