@@ -153,7 +153,7 @@ namespace WebAPI
                 });
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
