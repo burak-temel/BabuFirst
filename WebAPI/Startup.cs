@@ -145,7 +145,7 @@ namespace WebAPI
             if (!env.IsProduction())
             {
                 app.UseSwagger();
-
+                 
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("v1/swagger.json", "DevArchitecture");
