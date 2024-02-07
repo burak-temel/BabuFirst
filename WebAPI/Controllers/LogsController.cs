@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class LogsController : BaseApiController
-    {
+    { 
         /// <summary>
         /// List Logs
         /// </summary>
