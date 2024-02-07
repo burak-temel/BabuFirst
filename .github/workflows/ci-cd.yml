@@ -40,6 +40,7 @@ jobs:
         username: ${{ secrets.SERVER_USERNAME }}
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
-          cd /var/www/myapp
+          cd /home/BabuFirstAPI
+          docker pull buraktemel/babufirst:latest
           docker-compose -f docker-compose.yml pull
           docker-compose -f docker-compose.yml up -d
