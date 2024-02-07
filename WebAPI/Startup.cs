@@ -133,19 +133,22 @@ namespace WebAPI
                     break;
             }
 
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-            app.UseDeveloperExceptionPage();
+            app.UseCors("MyCorsPolicy");
 
             app.ConfigureCustomExceptionMiddleware();
 
             _ = app.UseDbOperationClaimCreator();
 
-            app.UseCors("MyCorsPolicy");
 
             if (!env.IsProduction())
             {
                 app.UseSwagger();
-                 
+
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("v1/swagger.json", "DevArchitecture");
