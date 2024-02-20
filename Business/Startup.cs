@@ -90,6 +90,8 @@ namespace Business
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             ConfigureServices(services);
+            services.AddTransient<ITaxRateRepository, TaxRateRepository>();
+            services.AddTransient<IVehicleRepository, VehicleRepository>();
             services.AddTransient<IServiceRecordRepository, ServiceRecordRepository>();
             services.AddTransient<IServiceItemRepository, ServiceItemRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
@@ -119,6 +121,8 @@ namespace Business
         public void ConfigureStagingServices(IServiceCollection services)
         {
             ConfigureServices(services);
+            services.AddTransient<ITaxRateRepository, TaxRateRepository>();
+            services.AddTransient<IVehicleRepository, VehicleRepository>();
             services.AddTransient<IServiceRecordRepository, ServiceRecordRepository>();
             services.AddTransient<IServiceItemRepository, ServiceItemRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
@@ -147,6 +151,8 @@ namespace Business
         public void ConfigureProductionServices(IServiceCollection services)
         {
             ConfigureServices(services);
+            services.AddTransient<ITaxRateRepository, TaxRateRepository>();
+            services.AddTransient<IVehicleRepository, VehicleRepository>();
             services.AddTransient<IServiceRecordRepository, ServiceRecordRepository>();
             services.AddTransient<IServiceItemRepository, ServiceItemRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
