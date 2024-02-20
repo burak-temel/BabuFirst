@@ -54,6 +54,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Person> People { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ServiceItem> ServiceItems { get; set; }
+        public DbSet<ServiceRecord> ServiceRecords { get; set; }
 
         protected IConfiguration Configuration { get; }
 

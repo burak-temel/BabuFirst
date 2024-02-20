@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
-    public class ServiceRecord : BaseEntity, IEntity
+    public class ServiceRecord : /*BaseEntity,*/ IEntity
     {
         public int Id { get; set; }
         public DateTime ServiceDate { get; set; }
@@ -17,10 +17,10 @@ namespace Entities.Concrete
         public DateTime? UpdatedAt { get; set; }
         public bool IsDeleted { get; set; }
 
-        public ServiceRecord()
-        {
-            ServiceItems = new HashSet<ServiceItem>();
-        }
+        //public ServiceRecord()
+        //{
+        //    ServiceItems = new HashSet<ServiceItem>();
+        //}
     }
 
 
