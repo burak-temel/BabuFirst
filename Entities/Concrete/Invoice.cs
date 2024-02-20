@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
-    public class Invoice :  IEntity
+    public class Invoice : BaseEntity, IEntity
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
@@ -13,10 +13,10 @@ namespace Entities.Concrete
         public ICollection<ServiceRecord> ServiceRecords { get; set; }
         public decimal TotalAmount { get; set; }
 
-        //public Invoice()
-        //{
-        //    ServiceRecords = new HashSet<ServiceRecord>();
-        //}
+        public Invoice()
+        {
+            ServiceRecords = new HashSet<ServiceRecord>();
+        }
     }
 
 

@@ -50,6 +50,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Language> Languages { get; set; }
         public DbSet<Translate> Translates { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
 
         protected IConfiguration Configuration { get; }
 
