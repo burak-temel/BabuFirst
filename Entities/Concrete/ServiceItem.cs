@@ -1,6 +1,8 @@
-﻿namespace Entities.Concrete
+﻿using Core.Entities;
+
+namespace Entities.Concrete
 {
-    public class ServiceItem
+    public class ServiceItem : IEntity
     {
         public int ServiceRecordId { get; set; }
         public ServiceRecord ServiceRecord { get; set; }

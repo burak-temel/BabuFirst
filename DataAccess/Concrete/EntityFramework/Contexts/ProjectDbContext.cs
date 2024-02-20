@@ -53,6 +53,7 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ServiceItem> ServiceItems { get; set; }
 
         protected IConfiguration Configuration { get; }
 
