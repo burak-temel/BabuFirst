@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
-    public class Organization :  IEntity
+    public class Organization : BaseEntity, IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -12,11 +12,11 @@ namespace Entities.Concrete
         public ICollection<Employee> Employees { get; set; }
         public ICollection<Customer> Customers { get; set; }
 
-        //public Organization()
-        //{
-        //    Employees = new HashSet<Employee>();
-        //    Customers = new HashSet<Customer>();
-        //}
+        public Organization()
+        {
+            Employees = new HashSet<Employee>();
+            Customers = new HashSet<Customer>();
+        }
     }
 
 

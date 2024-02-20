@@ -90,6 +90,7 @@ namespace Business
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             ConfigureServices(services);
+            services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<ILogRepository, LogRepository>();
@@ -115,6 +116,7 @@ namespace Business
         public void ConfigureStagingServices(IServiceCollection services)
         {
             ConfigureServices(services);
+            services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<ILogRepository, LogRepository>();
@@ -139,6 +141,7 @@ namespace Business
         public void ConfigureProductionServices(IServiceCollection services)
         {
             ConfigureServices(services);
+            services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<IOrganizationRepository, OrganizationRepository>();
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<ILogRepository, LogRepository>();
