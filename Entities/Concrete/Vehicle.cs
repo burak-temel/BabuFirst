@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
-    public class Vehicle : /*BaseEntity,*/ IEntity
+    public class Vehicle : BaseEntity, IEntity
     {
         public int Id { get; set; }
         public string LicensePlate { get; set; }
@@ -16,10 +16,10 @@ namespace Entities.Concrete
         public Customer Customer { get; set; }
         public ICollection<ServiceRecord> ServiceRecords { get; set; }
 
-        //public Vehicle()
-        //{
-        //    ServiceRecords = new HashSet<ServiceRecord>();
-        //}
+        public Vehicle()
+        {
+            ServiceRecords = new HashSet<ServiceRecord>();
+        }
     }
 
 

@@ -11,6 +11,5 @@ namespace Core.Entities
         public DateTime? UpdatedAt { get ; set ; }
         public int? UpdatedBy { get ; set ; }
         public bool IsDeleted { get ; set ; }
-        int IEntity.Id { get ; set ; }
     }
 }

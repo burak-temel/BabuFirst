@@ -1,4 +1,5 @@
 using Core.Entities.Concrete;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -51,7 +52,6 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Translate> Translates { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Organization> Organizations { get; set; }
-        public DbSet<Person> People { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ServiceItem> ServiceItems { get; set; }
         public DbSet<ServiceRecord> ServiceRecords { get; set; }
