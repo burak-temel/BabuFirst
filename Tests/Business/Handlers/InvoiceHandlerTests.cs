@@ -41,12 +41,22 @@ namespace Tests.Business.HandlersTest
             var query = new GetInvoiceQuery();
 
             _invoiceRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Invoice, bool>>>())).ReturnsAsync(new Invoice()
-//propertyler buraya yazılacak
-//{																		
-//InvoiceId = 1,
-//InvoiceName = "Test"
-//}
-);
+            {
+                Id = 1, // Assuming Id represents InvoiceId
+                CustomerId = 123, // Sample CustomerId
+                Customer = new Customer() { /* set properties of Customer here */ },
+                InvoiceDate = new DateTime(2024, 2, 24), // Sample Invoice Date
+                ServiceRecords = new List<ServiceRecord>()
+    {
+        new ServiceRecord() { /* set properties of ServiceRecord here */ }
+    },
+                TotalAmount = 1000.00m, // Sample Total Amount
+                CreatedAt = DateTime.Now,
+                CreatedBy = 1, // Sample CreatedBy user Id
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = 1, // Sample UpdatedBy user Id
+                IsDeleted = false
+            });
 
             var handler = new GetInvoiceQueryHandler(_invoiceRepository.Object, _mediator.Object);
 
@@ -66,7 +76,44 @@ namespace Tests.Business.HandlersTest
             var query = new GetInvoicesQuery();
 
             _invoiceRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Invoice, bool>>>()))
-                        .ReturnsAsync(new List<Invoice> { new Invoice() { /*TODO:propertyler buraya yazılacak InvoiceId = 1, InvoiceName = "test"*/ } });
+                .ReturnsAsync(new List<Invoice>
+                {
+                new Invoice()
+                {
+                    Id = 1, // Assuming Id represents InvoiceId
+                    CustomerId = 123, // Sample CustomerId
+                    Customer = new Customer() { /* set properties of Customer here */ },
+                    InvoiceDate = new DateTime(2024, 2, 24), // Sample Invoice Date
+                    ServiceRecords = new List<ServiceRecord>()
+                    {
+                        new ServiceRecord() { /* set properties of ServiceRecord here */ }
+                    },
+                    TotalAmount = 1000.00m, // Sample Total Amount
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1, // Sample CreatedBy user Id
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1, // Sample UpdatedBy user Id
+                    IsDeleted = false
+                },
+                new Invoice()
+                {
+                    Id = 2, // Assuming Id represents InvoiceId
+                    CustomerId = 123, // Sample CustomerId
+                    Customer = new Customer() { /* set properties of Customer here */ },
+                    InvoiceDate = new DateTime(2024, 2, 24), // Sample Invoice Date
+                    ServiceRecords = new List<ServiceRecord>()
+                    {
+                        new ServiceRecord() { /* set properties of ServiceRecord here */ }
+                    },
+                    TotalAmount = 1000.00m, // Sample Total Amount
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1, // Sample CreatedBy user Id
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1, // Sample UpdatedBy user Id
+                    IsDeleted = false
+                }
+                });
+
 
             var handler = new GetInvoicesQueryHandler(_invoiceRepository.Object, _mediator.Object);
 

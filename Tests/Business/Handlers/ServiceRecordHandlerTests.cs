@@ -40,13 +40,28 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetServiceRecordQuery();
 
-            _serviceRecordRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ServiceRecord, bool>>>())).ReturnsAsync(new ServiceRecord()
-//propertyler buraya yazılacak
-//{																		
-//ServiceRecordId = 1,
-//ServiceRecordName = "Test"
-//}
-);
+            _serviceRecordRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ServiceRecord, bool>>>()))
+                .ReturnsAsync(new ServiceRecord()
+                {
+                    Id = 1, // Assuming Id represents ServiceRecordId
+                    ServiceDate = new DateTime(2024, 2, 24),
+                    Description = "Test Service",
+                    LaborCost = 200.00m,
+                    VehicleId = 1, // Sample VehicleId
+                    Vehicle = new Vehicle() { /* set properties of Vehicle here */ },
+                    ServiceItems = new List<ServiceItem>()
+                    {
+            new ServiceItem() { /* set properties of ServiceItem here */ }
+                    },
+                    InvoiceId = 1, // Sample InvoiceId
+                    Invoice = new Invoice() { /* set properties of Invoice here */ },
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1, // Sample CreatedBy user Id
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1, // Sample UpdatedBy user Id
+                    IsDeleted = false
+                });
+
 
             var handler = new GetServiceRecordQueryHandler(_serviceRecordRepository.Object, _mediator.Object);
 
@@ -66,7 +81,50 @@ namespace Tests.Business.HandlersTest
             var query = new GetServiceRecordsQuery();
 
             _serviceRecordRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<ServiceRecord, bool>>>()))
-                        .ReturnsAsync(new List<ServiceRecord> { new ServiceRecord() { /*TODO:propertyler buraya yazılacak ServiceRecordId = 1, ServiceRecordName = "test"*/ } });
+                                    .ReturnsAsync(new List<ServiceRecord>
+                                    {
+                                        new ServiceRecord()
+                                        {
+                                            Id = 1,
+                                            ServiceDate = new DateTime(2024, 2, 24),
+                                            Description = "Test Service 1",
+                                            LaborCost = 200.00m,
+                                            VehicleId = 1,
+                                            Vehicle = new Vehicle() { /* set properties of Vehicle here */ },
+                                            ServiceItems = new List<ServiceItem>()
+                                            {
+                                                new ServiceItem() { /* set properties of ServiceItem here */ }
+                                            },
+                                            InvoiceId = 1,
+                                            Invoice = new Invoice() { /* set properties of Invoice here */ },
+                                            CreatedAt = DateTime.Now,
+                                            CreatedBy = 1,
+                                            UpdatedAt = DateTime.Now,
+                                            UpdatedBy = 1,
+                                            IsDeleted = false
+                                        },
+                                        new ServiceRecord()
+                                        {
+                                            Id = 2,
+                                            ServiceDate = new DateTime(2024, 3, 24),
+                                            Description = "Test Service 2",
+                                            LaborCost = 300.00m,
+                                            VehicleId = 2,
+                                            Vehicle = new Vehicle() { /* set properties of Vehicle here */ },
+                                            ServiceItems = new List<ServiceItem>()
+                                            {
+                                                new ServiceItem() { /* set properties of ServiceItem here */ }
+                                            },
+                                            InvoiceId = 2,
+                                            Invoice = new Invoice() { /* set properties of Invoice here */ },
+                                            CreatedAt = DateTime.Now,
+                                            CreatedBy = 2,
+                                            UpdatedAt = DateTime.Now,
+                                            UpdatedBy = 2,
+                                            IsDeleted = false
+                                        }
+                                        // Add more ServiceRecord objects if needed
+                                    });
 
             var handler = new GetServiceRecordsQueryHandler(_serviceRecordRepository.Object, _mediator.Object);
 

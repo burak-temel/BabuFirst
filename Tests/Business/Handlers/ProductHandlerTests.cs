@@ -40,13 +40,25 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetProductQuery();
 
-            _productRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Product, bool>>>())).ReturnsAsync(new Product()
-//propertyler buraya yazılacak
-//{																		
-//ProductId = 1,
-//ProductName = "Test"
-//}
-);
+            _productRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Product, bool>>>()))
+                                .ReturnsAsync(new Product()
+                                {
+                                    Id = 1, // Assuming Id represents ProductId
+                                    Name = "Test Product",
+                                    Price = 99.99m,
+                                    TaxRateId = 1,
+                                    TaxRate = new TaxRate() { /* set properties of TaxRate here */ },
+                                    ServiceItems = new List<ServiceItem>()
+                                    {
+                                        new ServiceItem() { /* set properties of ServiceItem here */ }
+                                    },
+                                    CreatedAt = DateTime.Now,
+                                    CreatedBy = 1,
+                                    UpdatedAt = DateTime.Now,
+                                    UpdatedBy = 1,
+                                    IsDeleted = false
+                                });
+
 
             var handler = new GetProductQueryHandler(_productRepository.Object, _mediator.Object);
 
@@ -66,7 +78,44 @@ namespace Tests.Business.HandlersTest
             var query = new GetProductsQuery();
 
             _productRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Product, bool>>>()))
-                        .ReturnsAsync(new List<Product> { new Product() { /*TODO:propertyler buraya yazılacak ProductId = 1, ProductName = "test"*/ } });
+                                .ReturnsAsync(new List<Product>
+                                {
+                                    new Product()
+                                    {
+                                        Id = 1,
+                                        Name = "Test Product 1",
+                                        Price = 99.99m,
+                                        TaxRateId = 1,
+                                        TaxRate = new TaxRate() { /* set properties of TaxRate here */ },
+                                        ServiceItems = new List<ServiceItem>()
+                                        {
+                                            new ServiceItem() { /* set properties of ServiceItem here */ }
+                                        },
+                                        CreatedAt = DateTime.Now,
+                                        CreatedBy = 1,
+                                        UpdatedAt = DateTime.Now,
+                                        UpdatedBy = 1,
+                                        IsDeleted = false
+                                    },
+                                    new Product()
+                                    {
+                                        Id = 2,
+                                        Name = "Test Product 2",
+                                        Price = 199.99m,
+                                        TaxRateId = 2,
+                                        TaxRate = new TaxRate() { /* set properties of TaxRate here */ },
+                                        ServiceItems = new List<ServiceItem>()
+                                        {
+                                            new ServiceItem() { /* set properties of ServiceItem here */ }
+                                        },
+                                        CreatedAt = DateTime.Now,
+                                        CreatedBy = 2,
+                                        UpdatedAt = DateTime.Now,
+                                        UpdatedBy = 2,
+                                        IsDeleted = false
+                                    }
+                                    // Add more Product objects if needed
+                                });
 
             var handler = new GetProductsQueryHandler(_productRepository.Object, _mediator.Object);
 

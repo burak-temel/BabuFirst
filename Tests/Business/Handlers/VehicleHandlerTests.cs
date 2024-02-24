@@ -40,13 +40,29 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetVehicleQuery();
 
-            _vehicleRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Vehicle, bool>>>())).ReturnsAsync(new Vehicle()
-//propertyler buraya yazılacak
-//{																		
-//VehicleId = 1,
-//VehicleName = "Test"
-//}
-);
+            _vehicleRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Vehicle, bool>>>()))
+                .ReturnsAsync(new Vehicle()
+                {
+                    Id = 1, // Assuming Id represents VehicleId
+                    LicensePlate = "XYZ 1234",
+                    Make = "Test Make",
+                    Model = "Test Model",
+                    Year = 2024,
+                    VIN = "1HGBH41JXMN109186",
+                    Mileage = 10000.0,
+                    CustomerId = 1, // Sample CustomerId
+                    Customer = new Customer() { /* set properties of Customer here */ },
+                    ServiceRecords = new List<ServiceRecord>()
+                    {
+            new ServiceRecord() { /* set properties of ServiceRecord here */ }
+                    },
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1, // Sample CreatedBy user Id
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1, // Sample UpdatedBy user Id
+                    IsDeleted = false
+                });
+
 
             var handler = new GetVehicleQueryHandler(_vehicleRepository.Object, _mediator.Object);
 
@@ -66,7 +82,53 @@ namespace Tests.Business.HandlersTest
             var query = new GetVehiclesQuery();
 
             _vehicleRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Vehicle, bool>>>()))
-                        .ReturnsAsync(new List<Vehicle> { new Vehicle() { /*TODO:propertyler buraya yazılacak VehicleId = 1, VehicleName = "test"*/ } });
+                                .ReturnsAsync(new List<Vehicle>
+                                {
+                                    new Vehicle()
+                                    {
+                                        Id = 1,
+                                        LicensePlate = "XYZ 1234",
+                                        Make = "Test Make",
+                                        Model = "Test Model",
+                                        Year = 2024,
+                                        VIN = "1HGBH41JXMN109186",
+                                        Mileage = 10000.0,
+                                        CustomerId = 1,
+                                        Customer = new Customer() { /* set properties of Customer here */ },
+                                        ServiceRecords = new List<ServiceRecord>()
+                                        {
+                                            new ServiceRecord() { /* set properties of ServiceRecord here */ }
+                                        },
+                                        CreatedAt = DateTime.Now,
+                                        CreatedBy = 1,
+                                        UpdatedAt = DateTime.Now,
+                                        UpdatedBy = 1,
+                                        IsDeleted = false
+                                    },
+                                    new Vehicle()
+                                    {
+                                        Id = 2,
+                                        LicensePlate = "ABC 5678",
+                                        Make = "Another Make",
+                                        Model = "Another Model",
+                                        Year = 2023,
+                                        VIN = "2HGBH41JXMN109187",
+                                        Mileage = 20000.0,
+                                        CustomerId = 2,
+                                        Customer = new Customer() { /* set properties of Customer here */ },
+                                        ServiceRecords = new List<ServiceRecord>()
+                                        {
+                                            new ServiceRecord() { /* set properties of ServiceRecord here */ }
+                                        },
+                                        CreatedAt = DateTime.Now,
+                                        CreatedBy = 2,
+                                        UpdatedAt = DateTime.Now,
+                                        UpdatedBy = 2,
+                                        IsDeleted = false
+                                    }
+                                    // Add more Vehicle objects if needed
+                                });
+
 
             var handler = new GetVehiclesQueryHandler(_vehicleRepository.Object, _mediator.Object);
 

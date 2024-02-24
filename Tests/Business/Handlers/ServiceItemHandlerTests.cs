@@ -40,13 +40,17 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetServiceItemQuery();
 
-            _serviceItemRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ServiceItem, bool>>>())).ReturnsAsync(new ServiceItem()
-//propertyler buraya yazılacak
-//{																		
-//ServiceItemId = 1,
-//ServiceItemName = "Test"
-//}
-);
+            _serviceItemRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<ServiceItem, bool>>>()))
+                    .ReturnsAsync(new ServiceItem()
+                    {
+                        ServiceRecordId = 1, // Sample ServiceRecordId
+                        ServiceRecord = new ServiceRecord() { /* set properties of ServiceRecord here */ },
+                        ProductId = 1, // Sample ProductId
+                        Product = new Product() { /* set properties of Product here */ },
+                        Quantity = 5,
+                        UnitPrice = 50.00m
+                    });
+
 
             var handler = new GetServiceItemQueryHandler(_serviceItemRepository.Object, _mediator.Object);
 
@@ -66,7 +70,28 @@ namespace Tests.Business.HandlersTest
             var query = new GetServiceItemsQuery();
 
             _serviceItemRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<ServiceItem, bool>>>()))
-                        .ReturnsAsync(new List<ServiceItem> { new ServiceItem() { /*TODO:propertyler buraya yazılacak ServiceItemId = 1, ServiceItemName = "test"*/ } });
+                            .ReturnsAsync(new List<ServiceItem>
+                            {
+                                new ServiceItem()
+                                {
+                                    ServiceRecordId = 1,
+                                    ServiceRecord = new ServiceRecord() { /* set properties of ServiceRecord here */ },
+                                    ProductId = 1,
+                                    Product = new Product() { /* set properties of Product here */ },
+                                    Quantity = 5,
+                                    UnitPrice = 50.00m
+                                },
+                                new ServiceItem()
+                                {
+                                    ServiceRecordId = 2,
+                                    ServiceRecord = new ServiceRecord() { /* set properties of ServiceRecord here */ },
+                                    ProductId = 2,
+                                    Product = new Product() { /* set properties of Product here */ },
+                                    Quantity = 10,
+                                    UnitPrice = 100.00m
+                                }
+                                // Add more ServiceItem objects if needed
+                            });
 
             var handler = new GetServiceItemsQueryHandler(_serviceItemRepository.Object, _mediator.Object);
 

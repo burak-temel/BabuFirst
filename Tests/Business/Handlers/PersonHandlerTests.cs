@@ -40,13 +40,21 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetPersonQuery();
 
-            _personRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Person, bool>>>())).ReturnsAsync(new Person()
-//propertyler buraya yazılacak
-//{																		
-//PersonId = 1,
-//PersonName = "Test"
-//}
-);
+            _personRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Person, bool>>>()))
+                .ReturnsAsync(new Person()
+                {
+                    Id = 1, // Assuming Id represents PersonId
+                    FirstName = "Test",
+                    LastName = "Person",
+                    Email = "test.person@example.com",
+                    PhoneNumber = "123-456-7890",
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1,
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1,
+                    IsDeleted = false
+                });
+
 
             var handler = new GetPersonQueryHandler(_personRepository.Object, _mediator.Object);
 
@@ -66,7 +74,36 @@ namespace Tests.Business.HandlersTest
             var query = new GetPeopleQuery();
 
             _personRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Person, bool>>>()))
-                        .ReturnsAsync(new List<Person> { new Person() { /*TODO:propertyler buraya yazılacak PersonId = 1, PersonName = "test"*/ } });
+                            .ReturnsAsync(new List<Person>
+                            {
+                                new Person()
+                                {
+                                    Id = 1,
+                                    FirstName = "Test",
+                                    LastName = "Person1",
+                                    Email = "test.person1@example.com",
+                                    PhoneNumber = "123-456-7890",
+                                    CreatedAt = DateTime.Now,
+                                    CreatedBy = 1,
+                                    UpdatedAt = DateTime.Now,
+                                    UpdatedBy = 1,
+                                    IsDeleted = false
+                                },
+                                new Person()
+                                {
+                                    Id = 2,
+                                    FirstName = "Sample",
+                                    LastName = "Person2",
+                                    Email = "sample.person2@example.com",
+                                    PhoneNumber = "234-567-8901",
+                                    CreatedAt = DateTime.Now,
+                                    CreatedBy = 2,
+                                    UpdatedAt = DateTime.Now,
+                                    UpdatedBy = 2,
+                                    IsDeleted = false
+                                }
+                                // Add more Person objects if needed
+                            });
 
             var handler = new GetPeopleQueryHandler(_personRepository.Object, _mediator.Object);
 

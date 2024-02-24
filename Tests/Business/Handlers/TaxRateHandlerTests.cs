@@ -40,13 +40,23 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetTaxRateQuery();
 
-            _taxRateRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<TaxRate, bool>>>())).ReturnsAsync(new TaxRate()
-//propertyler buraya yazılacak
-//{																		
-//TaxRateId = 1,
-//TaxRateName = "Test"
-//}
-);
+            _taxRateRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<TaxRate, bool>>>()))
+                            .ReturnsAsync(new TaxRate()
+                            {
+                                Id = 1, // TaxRate Id
+                                Description = "Standard Rate",
+                                Rate = 15.00m, // Sample tax rate
+                                Products = new List<Product>()
+                                {
+                                    new Product() { /* set properties of Product here */ }
+                                },
+                                CreatedAt = DateTime.Now,
+                                CreatedBy = 1, // Sample CreatedBy user Id
+                                UpdatedAt = DateTime.Now,
+                                UpdatedBy = 1, // Sample UpdatedBy user Id
+                                IsDeleted = false
+                            });
+
 
             var handler = new GetTaxRateQueryHandler(_taxRateRepository.Object, _mediator.Object);
 
@@ -66,7 +76,40 @@ namespace Tests.Business.HandlersTest
             var query = new GetTaxRatesQuery();
 
             _taxRateRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<TaxRate, bool>>>()))
-                        .ReturnsAsync(new List<TaxRate> { new TaxRate() { /*TODO:propertyler buraya yazılacak TaxRateId = 1, TaxRateName = "test"*/ } });
+                                .ReturnsAsync(new List<TaxRate>
+                                {
+                                    new TaxRate()
+                                    {
+                                        Id = 1,
+                                        Description = "Standard Rate",
+                                        Rate = 15.00m,
+                                        Products = new List<Product>()
+                                        {
+                                            new Product() { /* set properties of Product here */ }
+                                        },
+                                        CreatedAt = DateTime.Now,
+                                        CreatedBy = 1,
+                                        UpdatedAt = DateTime.Now,
+                                        UpdatedBy = 1,
+                                        IsDeleted = false
+                                    },
+                                    new TaxRate()
+                                    {
+                                        Id = 2,
+                                        Description = "Reduced Rate",
+                                        Rate = 10.00m,
+                                        Products = new List<Product>()
+                                        {
+                                            new Product() { /* set properties of Product here */ }
+                                        },
+                                        CreatedAt = DateTime.Now,
+                                        CreatedBy = 2,
+                                        UpdatedAt = DateTime.Now,
+                                        UpdatedBy = 2,
+                                        IsDeleted = false
+                                    }
+                                    // Add more TaxRate objects if needed
+                                });
 
             var handler = new GetTaxRatesQueryHandler(_taxRateRepository.Object, _mediator.Object);
 

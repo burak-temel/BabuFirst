@@ -39,14 +39,25 @@ namespace Tests.Business.HandlersTest
         {
             //Arrange
             var query = new GetOrganizationQuery();
-
             _organizationRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Organization, bool>>>())).ReturnsAsync(new Organization()
-//propertyler buraya yazılacak
-//{																		
-//OrganizationId = 1,
-//OrganizationName = "Test"
-//}
-);
+            {
+                Id = 1, // Assuming Id represents OrganizationId
+                Name = "Test Organization",
+                Address = "123 Test Street",
+                Employees = new List<Employee>()
+    {
+        new Employee() { /* set properties of Employee here */ }
+    },
+                Customers = new List<Customer>()
+    {
+        new Customer() { /* set properties of Customer here */ }
+    },
+                CreatedAt = DateTime.Now,
+                CreatedBy = 1, // Sample CreatedBy user Id
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = 1, // Sample UpdatedBy user Id
+                IsDeleted = false
+            });
 
             var handler = new GetOrganizationQueryHandler(_organizationRepository.Object, _mediator.Object);
 
@@ -66,7 +77,48 @@ namespace Tests.Business.HandlersTest
             var query = new GetOrganizationsQuery();
 
             _organizationRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Organization, bool>>>()))
-                        .ReturnsAsync(new List<Organization> { new Organization() { /*TODO:propertyler buraya yazılacak OrganizationId = 1, OrganizationName = "test"*/ } });
+                .ReturnsAsync(new List<Organization>
+                {
+                new Organization()
+                {
+                    Id = 1, // Assuming Id represents OrganizationId
+                    Name = "Test Organization 1",
+                    Address = "123 Test Street",
+                    Employees = new List<Employee>()
+                    {
+                        new Employee() { /* set properties of Employee here */ }
+                    },
+                    Customers = new List<Customer>()
+                    {
+                        new Customer() { /* set properties of Customer here */ }
+                    },
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 1, // Sample CreatedBy user Id
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 1, // Sample UpdatedBy user Id
+                    IsDeleted = false
+                },
+                new Organization()
+                {
+                    Id = 2, // Different OrganizationId for the second organization
+                    Name = "Test Organization 2",
+                    Address = "456 Another Street",
+                    Employees = new List<Employee>()
+                    {
+                        new Employee() { /* set properties of Employee here */ }
+                    },
+                    Customers = new List<Customer>()
+                    {
+                        new Customer() { /* set properties of Customer here */ }
+                    },
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = 2, // Different CreatedBy user Id
+                    UpdatedAt = DateTime.Now,
+                    UpdatedBy = 2, // Different UpdatedBy user Id
+                    IsDeleted = false
+                }
+                });
+
 
             var handler = new GetOrganizationsQueryHandler(_organizationRepository.Object, _mediator.Object);
 
