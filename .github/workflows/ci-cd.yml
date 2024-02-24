@@ -41,6 +41,8 @@ jobs:
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
           cd /home/BabuFirstAPI
-          docker pull buraktemel/babufirst:latest
           docker-compose -f docker-compose.yml pull
           docker-compose -f docker-compose.yml up -d
+
+    - name: Docker Logout
+      run: docker logout
