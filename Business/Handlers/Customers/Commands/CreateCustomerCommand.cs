@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Business.Handlers.Customers.ValidationRules;
+using System;
 
 namespace Business.Handlers.Customers.Commands
 {
@@ -21,10 +22,11 @@ namespace Business.Handlers.Customers.Commands
     /// </summary>
     public class CreateCustomerCommand : IRequest<IResult>
     {
-
-        public System.Collections.Generic.ICollection<Vehicle> Vehicles { get; set; }
-        public System.Collections.Generic.ICollection<Invoice> Invoices { get; set; }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public int OrganizationId { get; set; }
 
         public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, IResult>
         {
@@ -42,16 +44,19 @@ namespace Business.Handlers.Customers.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
             {
-                var isThereCustomerRecord = _customerRepository.Query().Any(u => u.Vehicles == request.Vehicles);
+                //var isThereCustomerRecord = _customerRepository.Query().Any(u => u.Vehicles == request.Vehicles);
 
-                if (isThereCustomerRecord == true)
-                    return new ErrorResult(Messages.NameAlreadyExist);
+                //if (isThereCustomerRecord == true)
+                //    return new ErrorResult(Messages.NameAlreadyExist);
 
                 var addedCustomer = new Customer
                 {
-                    Vehicles = request.Vehicles,
-                    Invoices = request.Invoices,
-
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    PhoneNumber = request.PhoneNumber,
+                    CreatedAt = DateTime.UtcNow,
+                    OrganizationId = request.OrganizationId
                 };
 
                 _customerRepository.Add(addedCustomer);

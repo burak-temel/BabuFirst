@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Business.Handlers.Employees.ValidationRules;
+using System;
 
 namespace Business.Handlers.Employees.Commands
 {
@@ -22,6 +23,11 @@ namespace Business.Handlers.Employees.Commands
     public class CreateEmployeeCommand : IRequest<IResult>
     {
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public int OrganizationId { get; set; }
         public decimal Salary { get; set; }
 
 
@@ -48,7 +54,13 @@ namespace Business.Handlers.Employees.Commands
 
                 var addedEmployee = new Employee
                 {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    PhoneNumber = request.PhoneNumber,
                     Salary = request.Salary,
+                    OrganizationId = request.OrganizationId,
+                    CreatedAt = DateTime.UtcNow
 
                 };
 

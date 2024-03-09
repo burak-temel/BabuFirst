@@ -4,7 +4,7 @@ using System;
 namespace Entities.Concrete
 
 {
-    public class Employee : IEntity
+    public class Employee : Person, IEntity
     {
         public int OrganizationId { get; set; }
         public Organization Organization { get; set; }

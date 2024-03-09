@@ -9,8 +9,9 @@ namespace Business.Handlers.Customers.ValidationRules
     {
         public CreateCustomerValidator()
         {
-            RuleFor(x => x.Vehicles).NotEmpty();
-            RuleFor(x => x.Invoices).NotEmpty();
+            //todo write rule 
+            //RuleFor(x => x.Vehicles).NotEmpty();
+            //RuleFor(x => x.Invoices).NotEmpty();
 
         }
     }

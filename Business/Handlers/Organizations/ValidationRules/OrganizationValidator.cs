@@ -11,8 +11,8 @@ namespace Business.Handlers.Organizations.ValidationRules
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Address).NotEmpty();
-            RuleFor(x => x.Employees).NotEmpty();
-            RuleFor(x => x.Customers).NotEmpty();
+            //RuleFor(x => x.Employees).NotEmpty();
+            //RuleFor(x => x.Customers).NotEmpty();
 
         }
     }
@@ -22,8 +22,8 @@ namespace Business.Handlers.Organizations.ValidationRules
         {
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Address).NotEmpty();
-            RuleFor(x => x.Employees).NotEmpty();
-            RuleFor(x => x.Customers).NotEmpty();
+            //RuleFor(x => x.Employees).NotEmpty();
+            //RuleFor(x => x.Customers).NotEmpty();
 
         }
     }
