@@ -18,7 +18,7 @@ using static Business.Handlers.Employees.Commands.DeleteEmployeeCommand;
 using MediatR;
 using System.Linq;
 using FluentAssertions;
-
+using System.Threading;
 
 namespace Tests.Business.HandlersTest
 {
@@ -40,24 +40,27 @@ namespace Tests.Business.HandlersTest
             //Arrange
             var query = new GetEmployeeQuery();
 
-            _employeeRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Employee, bool>>>())).ReturnsAsync(new Employee()
-//propertyler buraya yazılacak
-//{																		
-//EmployeeId = 1,
-//EmployeeName = "Test"
-//}
-);
+            _employeeRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Employee, bool>>>()))
+                               .ReturnsAsync(new Employee
+                               {
+                                   FirstName = "John",
+                                   LastName = "Doe",
+                                   Email = "john.doe@example.com",
+                                   PhoneNumber = "1234567890",
+                                   OrganizationId = 1
+                               });
 
             var handler = new GetEmployeeQueryHandler(_employeeRepository.Object, _mediator.Object);
 
             //Act
-            var x = await handler.Handle(query, new System.Threading.CancellationToken());
+            var result = await handler.Handle(query, new CancellationToken());
 
-            //Asset
-            x.Success.Should().BeTrue();
-            //x.Data.EmployeeId.Should().Be(1);
-
+            //Assert
+            result.Success.Should().BeTrue();
+            result.Data.Should().NotBeNull();
+            result.Data.FirstName.Should().Be("John");
         }
+
 
         [Test]
         public async Task Employee_GetQueries_Success()
@@ -66,60 +69,113 @@ namespace Tests.Business.HandlersTest
             var query = new GetEmployeesQuery();
 
             _employeeRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Employee, bool>>>()))
-                        .ReturnsAsync(new List<Employee> { new Employee() { /*TODO:propertyler buraya yazılacak EmployeeId = 1, EmployeeName = "test"*/ } });
+                               .ReturnsAsync(new List<Employee>
+                               {
+                           new Employee
+                           {
+                               FirstName = "John",
+                               LastName = "Doe",
+                               Email = "john.doe@example.com",
+                               PhoneNumber = "1234567890",
+                               OrganizationId = 1
+                           },
+                           new Employee
+                           {
+                               FirstName = "Jane",
+                               LastName = "Doe",
+                               Email = "jane.doe@example.com",
+                               PhoneNumber = "0987654321",
+                               OrganizationId = 2
+                           }
+                               });
 
             var handler = new GetEmployeesQueryHandler(_employeeRepository.Object, _mediator.Object);
 
             //Act
-            var x = await handler.Handle(query, new System.Threading.CancellationToken());
+            var result = await handler.Handle(query, new CancellationToken());
 
-            //Asset
-            x.Success.Should().BeTrue();
-            ((List<Employee>)x.Data).Count.Should().BeGreaterThan(1);
-
+            //Assert
+            result.Success.Should().BeTrue();
+            ((List<Employee>)result.Data).Count.Should().Be(2);
         }
 
         [Test]
         public async Task Employee_CreateCommand_Success()
         {
-            Employee rt = null;
             //Arrange
-            var command = new CreateEmployeeCommand();
-            //propertyler buraya yazılacak
-            //command.EmployeeName = "deneme";
+            var command = new CreateEmployeeCommand
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = "1234567890",
+                OrganizationId = 1,
+                Salary = 50000M
+            };
+
+            Employee addedEmployee = null;
 
             _employeeRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Employee, bool>>>()))
-                        .ReturnsAsync(rt);
+                               .ReturnsAsync((Employee)null);
 
-            _employeeRepository.Setup(x => x.Add(It.IsAny<Employee>())).Returns(new Employee());
+            _employeeRepository.Setup(x => x.Add(It.IsAny<Employee>()))
+                               .Callback<Employee>(emp => addedEmployee = emp)
+                               .Returns(() => addedEmployee);
 
             var handler = new CreateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object);
-            var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
+            //Act
+            var result = await handler.Handle(command, new CancellationToken());
+
+            //Assert
             _employeeRepository.Verify(x => x.SaveChangesAsync());
-            x.Success.Should().BeTrue();
-            x.Message.Should().Be(Messages.Added);
+            result.Success.Should().BeTrue();
+            result.Message.Should().Be(Messages.Added);
         }
+
+
 
         [Test]
         public async Task Employee_CreateCommand_NameAlreadyExist()
         {
             //Arrange
-            var command = new CreateEmployeeCommand();
-            //propertyler buraya yazılacak 
-            //command.EmployeeName = "test";
+            var command = new CreateEmployeeCommand
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = "1234567890",
+                OrganizationId = 1,
+                Salary = 50000M
+            };
 
             _employeeRepository.Setup(x => x.Query())
-                                           .Returns(new List<Employee> { new Employee() { /*TODO:propertyler buraya yazılacak EmployeeId = 1, EmployeeName = "test"*/ } }.AsQueryable());
+                               .Returns(new List<Employee>
+                                {
+                            new Employee
+                            {
+                                FirstName = "John",
+                                LastName = "Doe",
+                                Email = "john.doe@example.com",
+                                PhoneNumber = "1234567890",
+                                OrganizationId = 1,
+                                Salary = 50000M
+                            }
+                                }.AsQueryable());
 
             _employeeRepository.Setup(x => x.Add(It.IsAny<Employee>())).Returns(new Employee());
 
             var handler = new CreateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object);
-            var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
-            x.Success.Should().BeFalse();
-            x.Message.Should().Be(Messages.NameAlreadyExist);
+            //Act
+            var result = await handler.Handle(command, new CancellationToken());
+
+            //Assert
+            result.Success.Should().BeFalse();
+            result.Message.Should().Be(Messages.NameAlreadyExist);
         }
+
+
 
         [Test]
         public async Task Employee_UpdateCommand_Success()

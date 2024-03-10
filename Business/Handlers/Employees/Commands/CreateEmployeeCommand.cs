@@ -47,7 +47,7 @@ namespace Business.Handlers.Employees.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
             {
-                var isThereEmployeeRecord = _employeeRepository.Query().Any(u => u.Salary == request.Salary);
+                var isThereEmployeeRecord = _employeeRepository.Query().Any(u => u.Email == request.Email);
 
                 if (isThereEmployeeRecord == true)
                     return new ErrorResult(Messages.NameAlreadyExist);

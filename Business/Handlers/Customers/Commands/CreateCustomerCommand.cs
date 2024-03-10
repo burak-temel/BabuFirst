@@ -44,10 +44,10 @@ namespace Business.Handlers.Customers.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
             {
-                //var isThereCustomerRecord = _customerRepository.Query().Any(u => u.Vehicles == request.Vehicles);
+                var isThereCustomerRecord = _customerRepository.Query().Any(u => u.Email == request.Email);
 
-                //if (isThereCustomerRecord == true)
-                //    return new ErrorResult(Messages.NameAlreadyExist);
+                if (isThereCustomerRecord == true)
+                    return new ErrorResult(Messages.NameAlreadyExist);
 
                 var addedCustomer = new Customer
                 {

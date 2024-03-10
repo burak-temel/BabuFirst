@@ -18,7 +18,7 @@ using static Business.Handlers.Customers.Commands.DeleteCustomerCommand;
 using MediatR;
 using System.Linq;
 using FluentAssertions;
-
+using System.Threading;
 
 namespace Tests.Business.HandlersTest
 {
@@ -38,26 +38,29 @@ namespace Tests.Business.HandlersTest
         public async Task Customer_GetQuery_Success()
         {
             //Arrange
-            var query = new GetCustomerQuery();
+            int testOrganizationId = 1;
+            var query = new GetCustomerQuery { OrganizationId = testOrganizationId };
 
-            _customerRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Customer, bool>>>())).ReturnsAsync(new Customer()
-//propertyler buraya yazılacak
-//{																		
-//CustomerId = 1,
-//CustomerName = "Test"
-//}
-);
+            _customerRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Customer, bool>>>()))
+                               .ReturnsAsync(new Customer
+                               {
+                                   FirstName = "John",
+                                   LastName = "Doe",
+                                   Email = "john.doe@example.com",
+                                   PhoneNumber = "1234567890",
+                                   OrganizationId = testOrganizationId
+                               });
 
             var handler = new GetCustomerQueryHandler(_customerRepository.Object, _mediator.Object);
 
             //Act
-            var x = await handler.Handle(query, new System.Threading.CancellationToken());
+            var result = await handler.Handle(query, new CancellationToken());
 
-            //Asset
-            x.Success.Should().BeTrue();
-            //x.Data.CustomerId.Should().Be(1);
-
+            //Assert
+            result.Success.Should().BeTrue();
+            result.Data.OrganizationId.Should().Be(testOrganizationId);
         }
+
 
         [Test]
         public async Task Customer_GetQueries_Success()
@@ -66,18 +69,36 @@ namespace Tests.Business.HandlersTest
             var query = new GetCustomersQuery();
 
             _customerRepository.Setup(x => x.GetListAsync(It.IsAny<Expression<Func<Customer, bool>>>()))
-                        .ReturnsAsync(new List<Customer> { new Customer() { /*TODO:propertyler buraya yazılacak CustomerId = 1, CustomerName = "test"*/ } });
+                               .ReturnsAsync(new List<Customer>
+                               {
+                           new Customer
+                           {
+                               FirstName = "John",
+                               LastName = "Doe",
+                               Email = "john.doe@example.com",
+                               PhoneNumber = "1234567890",
+                               OrganizationId = 1
+                           },
+                           new Customer
+                           {
+                               FirstName = "Jane",
+                               LastName = "Doe",
+                               Email = "jane.doe@example.com",
+                               PhoneNumber = "0987654321",
+                               OrganizationId = 2
+                           }
+                               });
 
             var handler = new GetCustomersQueryHandler(_customerRepository.Object, _mediator.Object);
 
             //Act
-            var x = await handler.Handle(query, new System.Threading.CancellationToken());
+            var result = await handler.Handle(query, new CancellationToken());
 
-            //Asset
-            x.Success.Should().BeTrue();
-            ((List<Customer>)x.Data).Count.Should().BeGreaterThan(1);
-
+            //Assert
+            result.Success.Should().BeTrue();
+            ((List<Customer>)result.Data).Count.Should().Be(2);
         }
+
 
         [Test]
         public async Task Customer_CreateCommand_Success()
@@ -102,23 +123,38 @@ namespace Tests.Business.HandlersTest
         }
 
         [Test]
-        public async Task Customer_CreateCommand_NameAlreadyExist()
+        public async Task Customer_CreateCommand_CustomerAlreadyExist()
         {
             //Arrange
-            var command = new CreateCustomerCommand();
-            //propertyler buraya yazılacak 
-            //command.CustomerName = "test";
+            var command = new CreateCustomerCommand
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = "1234567890",
+                OrganizationId = 1
+            };
 
             _customerRepository.Setup(x => x.Query())
-                                           .Returns(new List<Customer> { new Customer() { /*TODO:propertyler buraya yazılacak CustomerId = 1, CustomerName = "test"*/ } }.AsQueryable());
+                               .Returns(new List<Customer> {
+                           new Customer {
+                               FirstName = "John",
+                               LastName = "Doe",
+                               Email = "john.doe@example.com",
+                               PhoneNumber = "1234567890",
+                               OrganizationId = 1,
+                               CreatedAt = DateTime.UtcNow
+                           }
+                               }.AsQueryable());
 
             _customerRepository.Setup(x => x.Add(It.IsAny<Customer>())).Returns(new Customer());
 
             var handler = new CreateCustomerCommandHandler(_customerRepository.Object, _mediator.Object);
-            var x = await handler.Handle(command, new System.Threading.CancellationToken());
+            var result = await handler.Handle(command, new System.Threading.CancellationToken());
 
-            x.Success.Should().BeFalse();
-            x.Message.Should().Be(Messages.NameAlreadyExist);
+            //Assert
+            result.Success.Should().BeFalse();
+            result.Message.Should().Be(Messages.NameAlreadyExist);
         }
 
         [Test]
