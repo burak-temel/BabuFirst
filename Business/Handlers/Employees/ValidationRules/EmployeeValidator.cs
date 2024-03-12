@@ -9,7 +9,7 @@ namespace Business.Handlers.Employees.ValidationRules
     {
         public CreateEmployeeValidator()
         {
-            RuleFor(x => x.Salary).NotEmpty();
+            RuleFor(x => x.PhoneNumber).NotEmpty();
 
         }
     }

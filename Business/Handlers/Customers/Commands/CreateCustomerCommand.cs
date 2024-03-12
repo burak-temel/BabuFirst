@@ -44,7 +44,7 @@ namespace Business.Handlers.Customers.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
             {
-                var isThereCustomerRecord = _customerRepository.Query().Any(u => u.Email == request.Email);
+                var isThereCustomerRecord = _customerRepository.Query().Any(u => u.PhoneNumber == request.PhoneNumber);
 
                 if (isThereCustomerRecord == true)
                     return new ErrorResult(Messages.NameAlreadyExist);

@@ -19,8 +19,7 @@ namespace Business.Handlers.Customers.ValidationRules
     {
         public UpdateCustomerValidator()
         {
-            RuleFor(x => x.Vehicles).NotEmpty();
-            RuleFor(x => x.Invoices).NotEmpty();
+            //TODO
 
         }
     }

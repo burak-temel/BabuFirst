@@ -28,7 +28,7 @@ namespace Business.Handlers.Employees.Commands
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public int OrganizationId { get; set; }
-        public decimal Salary { get; set; }
+        public decimal? Salary { get; set; }
 
 
         public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, IResult>
@@ -47,7 +47,7 @@ namespace Business.Handlers.Employees.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
             {
-                var isThereEmployeeRecord = _employeeRepository.Query().Any(u => u.Email == request.Email);
+                var isThereEmployeeRecord = _employeeRepository.Query().Any(u => u.PhoneNumber == request.PhoneNumber);
 
                 if (isThereEmployeeRecord == true)
                     return new ErrorResult(Messages.NameAlreadyExist);

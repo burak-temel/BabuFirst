@@ -8,6 +8,6 @@ namespace Entities.Concrete
     {
         public int OrganizationId { get; set; }
         public Organization Organization { get; set; }
-        public decimal Salary { get; set; }
+        public decimal? Salary { get; set; }
     }
 }
