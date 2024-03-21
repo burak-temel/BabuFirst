@@ -1,6 +1,6 @@
 ﻿
-using Business.Handlers.Products.Commands;
-using Business.Handlers.Products.Queries;
+using Business.Handlers.Employees.Commands;
+using Business.Handlers.Employees.Queries;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -11,25 +11,25 @@ using System.Collections.Generic;
 namespace WebAPI.Controllers
 {
     /// <summary>
-    /// Products If controller methods will not be Authorize, [AllowAnonymous] is used.
+    /// Employees If controller methods will not be Authorize, [AllowAnonymous] is used.
     /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class ProductsController : BaseApiController
+    public class EmployeesController : BaseApiController
     {
         ///<summary>
-        ///List Products
+        ///List Employees
         ///</summary>
-        ///<remarks>Products</remarks>
-        ///<return>List Products</return>
+        ///<remarks>Employees</remarks>
+        ///<return>List Employees</return>
         ///<response code="200"></response>
         [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Employee>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getall")]
         public async Task<IActionResult> GetList()
         {
-            var result = await Mediator.Send(new GetProductsQuery());
+            var result = await Mediator.Send(new GetEmployeesQuery());
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -40,16 +40,16 @@ namespace WebAPI.Controllers
         ///<summary>
         ///It brings the details according to its id.
         ///</summary>
-        ///<remarks>Products</remarks>
-        ///<return>Products List</return>
+        ///<remarks>Employees</remarks>
+        ///<return>Employees List</return>
         ///<response code="200"></response>  
         [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Employee))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyid")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int organizationId)
         {
-            var result = await Mediator.Send(new GetProductQuery { Id = id });
+            var result = await Mediator.Send(new GetEmployeeQuery { OrganizationId = organizationId });
             if (result.Success)
             {
                 return Ok(result.Data);
@@ -58,17 +58,17 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>
-        /// Add Product.
+        /// Add Employee.
         /// </summary>
-        /// <param name="createProduct"></param>
+        /// <param name="createEmployee"></param>
         /// <returns></returns>
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateProductCommand createProduct)
+        public async Task<IActionResult> Add([FromBody] CreateEmployeeCommand createEmployee)
         {
-            var result = await Mediator.Send(createProduct);
+            var result = await Mediator.Send(createEmployee);
             if (result.Success)
             {
                 return Ok(result.Message);
@@ -77,17 +77,17 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>
-        /// Update Product.
+        /// Update Employee.
         /// </summary>
-        /// <param name="updateProduct"></param>
+        /// <param name="updateEmployee"></param>
         /// <returns></returns>
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateProductCommand updateProduct)
+        public async Task<IActionResult> Update([FromBody] UpdateEmployeeCommand updateEmployee)
         {
-            var result = await Mediator.Send(updateProduct);
+            var result = await Mediator.Send(updateEmployee);
             if (result.Success)
             {
                 return Ok(result.Message);
@@ -96,17 +96,17 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>
-        /// Delete Product.
+        /// Delete Employee.
         /// </summary>
-        /// <param name="deleteProduct"></param>
+        /// <param name="deleteEmployee"></param>
         /// <returns></returns>
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeleteProductCommand deleteProduct)
+        public async Task<IActionResult> Delete([FromBody] DeleteEmployeeCommand deleteEmployee)
         {
-            var result = await Mediator.Send(deleteProduct);
+            var result = await Mediator.Send(deleteEmployee);
             if (result.Success)
             {
                 return Ok(result.Message);

@@ -57,6 +57,8 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<ServiceRecord> ServiceRecords { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<TaxRate> TaxRates { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         protected IConfiguration Configuration { get; }
 

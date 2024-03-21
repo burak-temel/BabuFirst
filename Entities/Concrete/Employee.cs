@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Core.Entities;
+using System;
 
 namespace Entities.Concrete
 
 {
-    public class Employee : Person
+    public class Employee : Person, IEntity
     {
         public int OrganizationId { get; set; }
         public Organization Organization { get; set; }
-        public decimal Salary { get; set; }
+        public decimal? Salary { get; set; }
     }
 }

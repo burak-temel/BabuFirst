@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Core.Entities;
+using System.Collections.Generic;
 
 namespace Entities.Concrete
 {
-public class Customer : Person
+public class Customer : Person, IEntity
 {
     public int OrganizationId { get; set; }
     public Organization Organization { get; set; }
