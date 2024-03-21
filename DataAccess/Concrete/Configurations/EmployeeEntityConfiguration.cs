@@ -11,9 +11,8 @@ namespace DataAccess.Concrete.Configurations
             builder.HasKey(e => e.Id);
             builder.Property(e => e.FirstName).HasMaxLength(50).IsRequired();
             builder.Property(e => e.LastName).HasMaxLength(50).IsRequired();
-            builder.Property(e => e.Email).HasMaxLength(100);
-            builder.Property(e => e.PhoneNumber).HasMaxLength(15);
-            builder.Property(e => e.Salary).HasColumnType("decimal(18,2)").IsRequired();
+            builder.Property(e => e.Email).HasMaxLength(100).IsRequired();
+            builder.Property(e => e.PhoneNumber).HasMaxLength(15).IsRequired();
 
             builder.HasOne(e => e.Organization)
                    .WithMany(o => o.Employees)
