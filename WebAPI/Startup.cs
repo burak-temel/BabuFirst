@@ -70,7 +70,7 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("MyCorsPolicy",
-                    builder => builder.WithOrigins("http://localhost:4200", "http://localhost:3000")
+                    builder => builder.WithOrigins("http://localhost:4200", "http://localhost:5050", "http://68.183.77.192:8090/:8090")
                         .AllowAnyHeader()
                         .AllowAnyMethod());
             });
