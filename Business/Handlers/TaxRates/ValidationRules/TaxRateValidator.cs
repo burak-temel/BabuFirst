@@ -11,7 +11,6 @@ namespace Business.Handlers.TaxRates.ValidationRules
         {
             RuleFor(x => x.Description).NotEmpty();
             RuleFor(x => x.Rate).NotEmpty();
-            RuleFor(x => x.Products).NotEmpty();
 
         }
     }
@@ -21,8 +20,6 @@ namespace Business.Handlers.TaxRates.ValidationRules
         {
             RuleFor(x => x.Description).NotEmpty();
             RuleFor(x => x.Rate).NotEmpty();
-            RuleFor(x => x.Products).NotEmpty();
-
         }
     }
 }

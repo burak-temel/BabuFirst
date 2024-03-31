@@ -25,7 +25,6 @@ namespace Business.Handlers.Products.Commands
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int TaxRateId { get; set; }
-        public System.Collections.Generic.ICollection<ServiceItem> ServiceItems { get; set; }
 
         public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, IResult>
         {
@@ -50,7 +49,6 @@ namespace Business.Handlers.Products.Commands
                 isThereProductRecord.Name = request.Name;
                 isThereProductRecord.Price = request.Price;
                 isThereProductRecord.TaxRateId = request.TaxRateId;
-                isThereProductRecord.ServiceItems = request.ServiceItems;
 
 
                 _productRepository.Update(isThereProductRecord);

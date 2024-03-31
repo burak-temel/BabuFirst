@@ -12,7 +12,6 @@ namespace Business.Handlers.Products.ValidationRules
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Price).NotEmpty();
             RuleFor(x => x.TaxRateId).NotEmpty();
-            RuleFor(x => x.ServiceItems).NotEmpty();
 
         }
     }
@@ -23,7 +22,6 @@ namespace Business.Handlers.Products.ValidationRules
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Price).NotEmpty();
             RuleFor(x => x.TaxRateId).NotEmpty();
-            RuleFor(x => x.ServiceItems).NotEmpty();
 
         }
     }

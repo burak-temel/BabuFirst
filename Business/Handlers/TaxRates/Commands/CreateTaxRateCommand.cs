@@ -24,7 +24,6 @@ namespace Business.Handlers.TaxRates.Commands
 
         public string Description { get; set; }
         public decimal Rate { get; set; }
-        public System.Collections.Generic.ICollection<Product> Products { get; set; }
 
 
         public class CreateTaxRateCommandHandler : IRequestHandler<CreateTaxRateCommand, IResult>

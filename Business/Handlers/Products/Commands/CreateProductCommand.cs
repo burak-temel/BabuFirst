@@ -25,7 +25,6 @@ namespace Business.Handlers.Products.Commands
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int TaxRateId { get; set; }
-        public System.Collections.Generic.ICollection<ServiceItem> ServiceItems { get; set; }
 
 
         public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, IResult>
@@ -53,9 +52,7 @@ namespace Business.Handlers.Products.Commands
                 {
                     Name = request.Name,
                     Price = request.Price,
-                    TaxRateId = request.TaxRateId,
-                    ServiceItems = request.ServiceItems,
-
+                    TaxRateId = request.TaxRateId
                 };
 
                 _productRepository.Add(addedProduct);
