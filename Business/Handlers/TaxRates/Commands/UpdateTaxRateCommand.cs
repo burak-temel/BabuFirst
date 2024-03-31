@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Core.Aspects.Autofac.Validation;
 using Business.Handlers.TaxRates.ValidationRules;
-
+using System;
 
 namespace Business.Handlers.TaxRates.Commands
 {
@@ -42,15 +42,14 @@ namespace Business.Handlers.TaxRates.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(UpdateTaxRateCommand request, CancellationToken cancellationToken)
             {
-                var isThereTaxRateRecord = await _taxRateRepository.GetAsync(u => u.Id == request.Id);
+                var taxRateRecord = await _taxRateRepository.GetAsync(u => u.Id == request.Id);
 
+                taxRateRecord.Description = request.Description;
+                taxRateRecord.Rate = request.Rate;
+                taxRateRecord.UpdatedAt = DateTime.UtcNow;
+                //taxRateRecord.UpdatedBy = request.Updated; TODO
 
-                isThereTaxRateRecord.Description = request.Description;
-                isThereTaxRateRecord.Rate = request.Rate;
-                isThereTaxRateRecord.Products = request.Products;
-
-
-                _taxRateRepository.Update(isThereTaxRateRecord);
+                _taxRateRepository.Update(taxRateRecord);
                 await _taxRateRepository.SaveChangesAsync();
                 return new SuccessResult(Messages.Updated);
             }

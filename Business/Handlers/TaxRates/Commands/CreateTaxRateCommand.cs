@@ -51,8 +51,8 @@ namespace Business.Handlers.TaxRates.Commands
                 {
                     Description = request.Description,
                     Rate = request.Rate,
-                    Products = request.Products,
-
+                    CreatedAt = System.DateTime.UtcNow,
+                    //CreatedBy = 1 TODO
                 };
 
                 _taxRateRepository.Add(addedTaxRate);
