@@ -93,6 +93,8 @@ namespace Core.Utilities.Security.Jwt
 
             claims.Add(new Claim(ClaimTypes.Role, user.AuthenticationProviderType));
 
+            claims.Add(new Claim("OrganizationId", user.OrganizationId.ToString()));
+
 
             return claims;
         }

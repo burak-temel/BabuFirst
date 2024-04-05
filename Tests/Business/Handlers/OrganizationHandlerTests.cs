@@ -18,7 +18,7 @@ using static Business.Handlers.Organizations.Commands.DeleteOrganizationCommand;
 using MediatR;
 using System.Linq;
 using FluentAssertions;
-
+using Core.Entities.Concrete;
 
 namespace Tests.Business.HandlersTest
 {
@@ -44,14 +44,7 @@ namespace Tests.Business.HandlersTest
                 Id = 1, // Assuming Id represents OrganizationId
                 Name = "Test Organization",
                 Address = "123 Test Street",
-                Employees = new List<Employee>()
-    {
-        new Employee() { /* set properties of Employee here */ }
-    },
-                Customers = new List<Customer>()
-    {
-        new Customer() { /* set properties of Customer here */ }
-    },
+
                 CreatedAt = DateTime.Now,
                 CreatedBy = 1, // Sample CreatedBy user Id
                 UpdatedAt = DateTime.Now,
@@ -84,14 +77,7 @@ namespace Tests.Business.HandlersTest
                     Id = 1, // Assuming Id represents OrganizationId
                     Name = "Test Organization 1",
                     Address = "123 Test Street",
-                    Employees = new List<Employee>()
-                    {
-                        new Employee() { /* set properties of Employee here */ }
-                    },
-                    Customers = new List<Customer>()
-                    {
-                        new Customer() { /* set properties of Customer here */ }
-                    },
+
                     CreatedAt = DateTime.Now,
                     CreatedBy = 1, // Sample CreatedBy user Id
                     UpdatedAt = DateTime.Now,
@@ -103,14 +89,7 @@ namespace Tests.Business.HandlersTest
                     Id = 2, // Different OrganizationId for the second organization
                     Name = "Test Organization 2",
                     Address = "456 Another Street",
-                    Employees = new List<Employee>()
-                    {
-                        new Employee() { /* set properties of Employee here */ }
-                    },
-                    Customers = new List<Customer>()
-                    {
-                        new Customer() { /* set properties of Customer here */ }
-                    },
+
                     CreatedAt = DateTime.Now,
                     CreatedBy = 2, // Different CreatedBy user Id
                     UpdatedAt = DateTime.Now,

@@ -164,6 +164,8 @@ namespace WebAPI
 
             app.UseAuthorization();
 
+            app.ConfigureAppContextMiddleware();
+
             // Make Turkish your default language. It shouldn't change according to the server.
             app.UseRequestLocalization(new RequestLocalizationOptions
             {

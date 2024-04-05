@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Business.Handlers.Organizations.ValidationRules;
+using Core.Entities.Concrete;
 
 namespace Business.Handlers.Organizations.Commands
 {
@@ -53,8 +54,8 @@ namespace Business.Handlers.Organizations.Commands
                 {
                     Name = request.Name,
                     Address = request.Address,
-                    Employees = request.Employees,
-                    Customers = request.Customers,
+                    //Employees = request.Employees,
+                    //Customers = request.Customers,
 
                 };
 

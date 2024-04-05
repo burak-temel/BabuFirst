@@ -22,6 +22,10 @@ namespace DataAccess.Concrete.Configurations
 
             builder.HasIndex(x => x.CitizenId);
             builder.HasIndex(x => x.MobilePhones);
+
+            builder.HasOne(e => e.Organization)
+                       .WithMany(o => o.User)
+                       .HasForeignKey(e => e.OrganizationId);
         }
     }
 }

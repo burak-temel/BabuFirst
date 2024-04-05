@@ -49,9 +49,7 @@ namespace Business.Handlers.Organizations.Commands
 
                 isThereOrganizationRecord.Name = request.Name;
                 isThereOrganizationRecord.Address = request.Address;
-                isThereOrganizationRecord.Employees = request.Employees;
-                isThereOrganizationRecord.Customers = request.Customers;
-
+                //TODO
 
                 _organizationRepository.Update(isThereOrganizationRecord);
                 await _organizationRepository.SaveChangesAsync();

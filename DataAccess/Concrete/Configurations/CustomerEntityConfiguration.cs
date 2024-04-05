@@ -15,7 +15,7 @@ namespace DataAccess.Concrete.Configurations
             builder.Property(c => c.PhoneNumber).HasMaxLength(15);
 
             builder.HasOne(c => c.Organization)
-                   .WithMany(o => o.Customers)
+                   .WithMany()
                    .HasForeignKey(c => c.OrganizationId);
             builder.HasMany(c => c.Vehicles)
                    .WithOne(v => v.Customer)

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Core.Aspects.Autofac.Logging;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Aspects.Autofac.Caching;
+using Core.Entities.Concrete;
 
 namespace Business.Handlers.Organizations.Queries
 {

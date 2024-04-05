@@ -17,6 +17,7 @@ namespace Business.Handlers.Users.Commands
     {
         public int UserId { get; set; }
         public long CitizenId { get; set; }
+        public int OrganizationId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string MobilePhones { get; set; }
@@ -61,7 +62,8 @@ namespace Business.Handlers.Users.Commands
                     CitizenId = request.CitizenId,
                     Gender = request.Gender,
                     Notes = request.Notes,
-                    MobilePhones = request.MobilePhones
+                    MobilePhones = request.MobilePhones,
+                    OrganizationId = request.OrganizationId,
                 };
 
                 _userRepository.Add(user);

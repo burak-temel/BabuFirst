@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 
-namespace Entities.Concrete
+namespace Core.Entities.Concrete
 {
     public class Organization : BaseEntity, IEntity
     {
         public string Name { get; set; }
         public string Address { get; set; }
-        public ICollection<Employee> Employees { get; set; }
-        public ICollection<Customer> Customers { get; set; }
+        //user
+        public ICollection<User> User { get; set; }
 
         public Organization()
         {
-            Employees = new HashSet<Employee>();
-            Customers = new HashSet<Customer>();
+            User = new HashSet<User>();
         }
     }
 

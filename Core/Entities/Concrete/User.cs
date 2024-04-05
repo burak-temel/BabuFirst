@@ -20,6 +20,10 @@ namespace Core.Entities.Concrete
         public long CitizenId { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+
+        public Organization Organization { get; set; }
+        public int OrganizationId { get; set; }
+
         [JsonIgnore]
         public string RefreshToken { get; set; }
         public string MobilePhones { get; set; }
