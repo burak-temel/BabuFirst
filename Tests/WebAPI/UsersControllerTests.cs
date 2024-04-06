@@ -21,7 +21,7 @@ namespace Tests.WebAPI
             const string requestUri = "api/v1/users";
 
             // Arrange
-            var token = MockJwtTokens.GenerateJwtToken(ClaimsData.GetClaims());
+            var token = MockJwtTokens.GenerateJwtToken(ClaimsData.GetClaims(),4);
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(authenticationScheme, token);
             var cache = new MemoryCacheManager();
 

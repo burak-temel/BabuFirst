@@ -23,7 +23,7 @@ namespace Tests.Business.Services.Authentication
         public async Task TokenAuthorizeTest()
         {
             // Arrange
-            var token = MockJwtTokens.GenerateJwtToken(ClaimsData.GetClaims());
+            var token = MockJwtTokens.GenerateJwtToken(ClaimsData.GetClaims(),4);
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(_authenticationScheme, token);
             var cache = new MemoryCacheManager();
 
