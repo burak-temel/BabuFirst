@@ -18,7 +18,7 @@ namespace Business.Handlers.Employees.Commands
     /// </summary>
     public class DeleteEmployeeCommand : IRequest<IResult>
     {
-        public int OrganizationId { get; set; }
+        public int EmployeeId { get; set; }
 
         public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, IResult>
         {
@@ -36,7 +36,7 @@ namespace Business.Handlers.Employees.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
             {
-                var employeeToDelete = _employeeRepository.Get(p => p.OrganizationId == request.OrganizationId);
+                var employeeToDelete = _employeeRepository.Get(p => p.Id == request.EmployeeId);
 
                 _employeeRepository.Delete(employeeToDelete);
                 await _employeeRepository.SaveChangesAsync();

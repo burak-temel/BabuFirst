@@ -14,6 +14,7 @@ using System.Linq;
 using Core.Aspects.Autofac.Validation;
 using Business.Handlers.Employees.ValidationRules;
 using System;
+using Core.CrossCuttingConcerns.Context;
 
 namespace Business.Handlers.Employees.Commands
 {
@@ -32,11 +33,13 @@ namespace Business.Handlers.Employees.Commands
         {
             private readonly IEmployeeRepository _employeeRepository;
             private readonly IMediator _mediator;
+            private readonly Core.Extensions.AppContext _appContext;
 
-            public UpdateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMediator mediator)
+            public UpdateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMediator mediator,IAppContextService appContextService)
             {
                 _employeeRepository = employeeRepository;
                 _mediator = mediator;
+                _appContext = appContextService.GetAppContext();
             }
 
             [ValidationAspect(typeof(UpdateEmployeeValidator), Priority = 1)]
@@ -67,7 +70,7 @@ namespace Business.Handlers.Employees.Commands
                 employeeRecord.LastName = request.LastName;
                 employeeRecord.Email = request.Email;
                 employeeRecord.UpdatedAt = DateTime.UtcNow;
-                employeeRecord.UpdatedBy = 0;//TODO
+                employeeRecord.UpdatedBy = _appContext.UserId;
 
                 _employeeRepository.Update(employeeRecord);
                 await _employeeRepository.SaveChangesAsync();

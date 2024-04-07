@@ -1,5 +1,7 @@
-﻿using Core.Entities.Concrete;
+﻿using Core.CrossCuttingConcerns.Context;
+using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using ServiceStack.Text;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -47,7 +49,7 @@ namespace Core.Extensions
                         OrganizationId = organizationId
                     };
 
-                    context.Items["AppContext"] = appContext;
+                    context.RequestServices.GetService<IAppContextService>().SetAppContext(appContext);
                 }
             }
 

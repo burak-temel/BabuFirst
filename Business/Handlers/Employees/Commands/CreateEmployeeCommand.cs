@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Business.Handlers.Employees.ValidationRules;
 using System;
+using Core.CrossCuttingConcerns.Context;
 
 namespace Business.Handlers.Employees.Commands
 {
@@ -27,7 +28,6 @@ namespace Business.Handlers.Employees.Commands
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-        public int OrganizationId { get; set; }
         public decimal? Salary { get; set; }
 
 
@@ -35,10 +35,13 @@ namespace Business.Handlers.Employees.Commands
         {
             private readonly IEmployeeRepository _employeeRepository;
             private readonly IMediator _mediator;
-            public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMediator mediator)
+            private readonly Core.Extensions.AppContext _appContext;
+
+            public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IMediator mediator, IAppContextService appContextService)
             {
                 _employeeRepository = employeeRepository;
                 _mediator = mediator;
+                _appContext = appContextService.GetAppContext();
             }
 
             [ValidationAspect(typeof(CreateEmployeeValidator), Priority = 1)]
@@ -59,9 +62,9 @@ namespace Business.Handlers.Employees.Commands
                     Email = request.Email,
                     PhoneNumber = request.PhoneNumber,
                     Salary = request.Salary,
-                    OrganizationId = request.OrganizationId,
-                    CreatedAt = DateTime.UtcNow
-
+                    OrganizationId = _appContext.OrganizationId,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = _appContext.UserId
                 };
 
                 _employeeRepository.Add(addedEmployee);

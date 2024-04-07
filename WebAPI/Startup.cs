@@ -1,5 +1,6 @@
 ﻿using Business;
 using Business.Helpers;
+using Core.CrossCuttingConcerns.Context;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Extensions;
 using Core.Utilities.IoC;
@@ -101,6 +102,7 @@ namespace WebAPI
             services.AddTransient<PostgreSqlLogger>();
             services.AddTransient<MsSqlLogger>();
             services.AddScoped<IpControlAttribute>();
+            services.AddScoped<IAppContextService, AppContextService>();
 
             base.ConfigureServices(services);
         }
