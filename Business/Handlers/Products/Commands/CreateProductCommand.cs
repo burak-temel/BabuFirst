@@ -13,6 +13,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Business.Handlers.Products.ValidationRules;
+using Core.CrossCuttingConcerns.Context;
+using Core.Extensions;
+using System;
 
 namespace Business.Handlers.Products.Commands
 {
@@ -31,10 +34,12 @@ namespace Business.Handlers.Products.Commands
         {
             private readonly IProductRepository _productRepository;
             private readonly IMediator _mediator;
-            public CreateProductCommandHandler(IProductRepository productRepository, IMediator mediator)
+            private readonly BabuAppContext _context;
+            public CreateProductCommandHandler(IProductRepository productRepository, IMediator mediator, IAppContextService appContextService)
             {
                 _productRepository = productRepository;
                 _mediator = mediator;
+                _context = appContextService.GetAppContext();
             }
 
             [ValidationAspect(typeof(CreateProductValidator), Priority = 1)]
@@ -52,7 +57,9 @@ namespace Business.Handlers.Products.Commands
                 {
                     Name = request.Name,
                     Price = request.Price,
-                    TaxRateId = request.TaxRateId
+                    TaxRateId = request.TaxRateId,
+                    CreatedAt = DateTime.UtcNow,
+                    CreatedBy = _context.UserId
                 };
 
                 _productRepository.Add(addedProduct);

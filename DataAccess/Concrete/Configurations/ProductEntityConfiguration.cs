@@ -13,11 +13,14 @@ namespace DataAccess.Concrete.Configurations
             builder.Property(p => p.Price).HasColumnType("decimal(18,2)").IsRequired();
 
             builder.HasOne(p => p.TaxRate)
-                   .WithMany() // Assuming TaxRate does not have a navigation property back to Product
+                   .WithMany()
                    .HasForeignKey(p => p.TaxRateId);
             builder.HasMany(p => p.ServiceItems)
                    .WithOne(si => si.Product)
                    .HasForeignKey(si => si.ProductId);
+            builder.HasOne(p => p.Organization)
+                   .WithMany()
+                   .HasForeignKey(p => p.OrganizationId);
         }
     }
 }

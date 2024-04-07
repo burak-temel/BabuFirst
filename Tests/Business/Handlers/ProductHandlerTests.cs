@@ -18,7 +18,8 @@ using static Business.Handlers.Products.Commands.DeleteProductCommand;
 using MediatR;
 using System.Linq;
 using FluentAssertions;
-
+using Core.CrossCuttingConcerns.Context;
+using Core.Extensions;
 
 namespace Tests.Business.HandlersTest
 {
@@ -27,11 +28,22 @@ namespace Tests.Business.HandlersTest
     {
         Mock<IProductRepository> _productRepository;
         Mock<IMediator> _mediator;
+        Mock<IAppContextService> _appContextService;
+
         [SetUp]
         public void Setup()
         {
             _productRepository = new Mock<IProductRepository>();
             _mediator = new Mock<IMediator>();
+            _appContextService = new Mock<IAppContextService>();
+
+            var appContextInstance = new BabuAppContext
+            {
+                UserId = 1,
+                OrganizationId = 1
+            };
+
+            _appContextService.Setup(a => a.GetAppContext()).Returns(appContextInstance);
         }
 
         [Test]
@@ -52,6 +64,7 @@ namespace Tests.Business.HandlersTest
                                     {
                                         new ServiceItem() { /* set properties of ServiceItem here */ }
                                     },
+                                    OrganizationId = 1,
                                     CreatedAt = DateTime.Now,
                                     CreatedBy = 1,
                                     UpdatedAt = DateTime.Now,
@@ -60,7 +73,7 @@ namespace Tests.Business.HandlersTest
                                 });
 
 
-            var handler = new GetProductQueryHandler(_productRepository.Object, _mediator.Object);
+            var handler = new GetProductQueryHandler(_productRepository.Object, _mediator.Object, _appContextService.Object);
 
             //Act
             var x = await handler.Handle(query, new System.Threading.CancellationToken());
@@ -91,6 +104,8 @@ namespace Tests.Business.HandlersTest
                                         {
                                             new ServiceItem() { /* set properties of ServiceItem here */ }
                                         },
+                                        OrganizationId = 1
+                                        ,
                                         CreatedAt = DateTime.Now,
                                         CreatedBy = 1,
                                         UpdatedAt = DateTime.Now,
@@ -108,6 +123,7 @@ namespace Tests.Business.HandlersTest
                                         {
                                             new ServiceItem() { /* set properties of ServiceItem here */ }
                                         },
+                                        OrganizationId = 1,
                                         CreatedAt = DateTime.Now,
                                         CreatedBy = 2,
                                         UpdatedAt = DateTime.Now,
@@ -142,7 +158,7 @@ namespace Tests.Business.HandlersTest
 
             _productRepository.Setup(x => x.Add(It.IsAny<Product>())).Returns(new Product());
 
-            var handler = new CreateProductCommandHandler(_productRepository.Object, _mediator.Object);
+            var handler = new CreateProductCommandHandler(_productRepository.Object, _mediator.Object, _appContextService.Object);
             var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
             _productRepository.Verify(x => x.SaveChangesAsync());
@@ -163,7 +179,7 @@ namespace Tests.Business.HandlersTest
 
             _productRepository.Setup(x => x.Add(It.IsAny<Product>())).Returns(new Product());
 
-            var handler = new CreateProductCommandHandler(_productRepository.Object, _mediator.Object);
+            var handler = new CreateProductCommandHandler(_productRepository.Object, _mediator.Object, _appContextService.Object);
             var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
             x.Success.Should().BeFalse();
@@ -182,7 +198,7 @@ namespace Tests.Business.HandlersTest
 
             _productRepository.Setup(x => x.Update(It.IsAny<Product>())).Returns(new Product());
 
-            var handler = new UpdateProductCommandHandler(_productRepository.Object, _mediator.Object);
+            var handler = new UpdateProductCommandHandler(_productRepository.Object, _mediator.Object, _appContextService.Object);
             var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
             _productRepository.Verify(x => x.SaveChangesAsync());
@@ -194,14 +210,32 @@ namespace Tests.Business.HandlersTest
         public async Task Product_DeleteCommand_Success()
         {
             //Arrange
-            var command = new DeleteProductCommand();
+            var command = new DeleteProductCommand() { Id = 1};
 
             _productRepository.Setup(x => x.GetAsync(It.IsAny<Expression<Func<Product, bool>>>()))
-                        .ReturnsAsync(new Product() { /*TODO:propertyler buraya yazılacak ProductId = 1, ProductName = "deneme"*/});
+                        .ReturnsAsync(new Product()
+                        {
+                            Id = 1,
+                            Name = "Test Product 1",
+                            Price = 99.99m,
+                            TaxRateId = 1,
+                            TaxRate = new TaxRate() { /* set properties of TaxRate here */ },
+                            ServiceItems = new List<ServiceItem>()
+                                        {
+                                            new ServiceItem() { /* set properties of ServiceItem here */ }
+                                        },
+                            OrganizationId = 1
+                                        ,
+                            CreatedAt = DateTime.Now,
+                            CreatedBy = 1,
+                            UpdatedAt = DateTime.Now,
+                            UpdatedBy = 1,
+                            IsDeleted = false
+                        });
 
             _productRepository.Setup(x => x.Delete(It.IsAny<Product>()));
 
-            var handler = new DeleteProductCommandHandler(_productRepository.Object, _mediator.Object);
+            var handler = new DeleteProductCommandHandler(_productRepository.Object, _mediator.Object, _appContextService.Object);
             var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
             _productRepository.Verify(x => x.SaveChangesAsync());

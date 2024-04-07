@@ -9,16 +9,16 @@ namespace Business.Handlers.Employees.ValidationRules
     {
         public CreateEmployeeValidator()
         {
-            RuleFor(x => x.PhoneNumber).NotEmpty();
-
+            RuleFor(x => x.FirstName).NotEmpty();
+            RuleFor(x => x.LastName).NotEmpty();
         }
     }
     public class UpdateEmployeeValidator : AbstractValidator<UpdateEmployeeCommand>
     {
         public UpdateEmployeeValidator()
         {
-            RuleFor(x => x.Salary).NotEmpty();
-
+            RuleFor(x => x.FirstName).NotEmpty();
+            RuleFor(x => x.LastName).NotEmpty();
         }
     }
 }

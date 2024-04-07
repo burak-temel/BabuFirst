@@ -13,7 +13,9 @@ using System.Threading.Tasks;
 using System.Linq;
 using Core.Aspects.Autofac.Validation;
 using Business.Handlers.Products.ValidationRules;
-
+using System;
+using Core.Extensions;
+using Core.CrossCuttingConcerns.Context;
 
 namespace Business.Handlers.Products.Commands
 {
@@ -30,11 +32,13 @@ namespace Business.Handlers.Products.Commands
         {
             private readonly IProductRepository _productRepository;
             private readonly IMediator _mediator;
+            private readonly BabuAppContext _context;
 
-            public UpdateProductCommandHandler(IProductRepository productRepository, IMediator mediator)
+            public UpdateProductCommandHandler(IProductRepository productRepository, IMediator mediator, IAppContextService appContextService)
             {
                 _productRepository = productRepository;
                 _mediator = mediator;
+                _context = appContextService.GetAppContext();
             }
 
             [ValidationAspect(typeof(UpdateProductValidator), Priority = 1)]
@@ -43,15 +47,21 @@ namespace Business.Handlers.Products.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<IResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
             {
-                var isThereProductRecord = await _productRepository.GetAsync(u => u.Id == request.Id);
+                var productRecord = await _productRepository.GetAsync(u => u.Id == request.Id && u.OrganizationId == _context.OrganizationId);
 
+                if (productRecord == null)
+                {
+                    return new ErrorResult(Messages.ProductNotFound);
+                }
 
-                isThereProductRecord.Name = request.Name;
-                isThereProductRecord.Price = request.Price;
-                isThereProductRecord.TaxRateId = request.TaxRateId;
+                productRecord.Name = request.Name;
+                productRecord.Price = request.Price;
+                productRecord.TaxRateId = request.TaxRateId;
+                productRecord.UpdatedBy = _context.UserId;
+                productRecord.OrganizationId = _context.OrganizationId;
+                productRecord.UpdatedAt = DateTime.UtcNow;
 
-
-                _productRepository.Update(isThereProductRecord);
+                _productRepository.Update(productRecord);
                 await _productRepository.SaveChangesAsync();
                 return new SuccessResult(Messages.Updated);
             }
