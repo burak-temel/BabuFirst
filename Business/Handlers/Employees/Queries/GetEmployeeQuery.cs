@@ -20,7 +20,7 @@ namespace Business.Handlers.Employees.Queries
         {
             private readonly IEmployeeRepository _employeeRepository;
             private readonly IMediator _mediator;
-            private readonly Core.Extensions.AppContext _appContext;
+            private readonly Core.Extensions.BabuAppContext _appContext;
 
             public GetEmployeeQueryHandler(IEmployeeRepository employeeRepository, IMediator mediator, IAppContextService appContextService)
             {

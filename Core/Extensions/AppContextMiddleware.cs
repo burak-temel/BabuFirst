@@ -43,7 +43,7 @@ namespace Core.Extensions
                         throw new Exception("OrganizationId claim is missing or not a valid integer.");
                     }
 
-                    var appContext = new AppContext
+                    var appContext = new BabuAppContext
                     {
                         UserId = userId,
                         OrganizationId = organizationId

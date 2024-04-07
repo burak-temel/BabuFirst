@@ -15,10 +15,13 @@ using Business.Handlers.Employees.Commands;
 using Business.Constants;
 using static Business.Handlers.Employees.Commands.UpdateEmployeeCommand;
 using static Business.Handlers.Employees.Commands.DeleteEmployeeCommand;
+using Core;
 using MediatR;
 using System.Linq;
 using FluentAssertions;
 using System.Threading;
+using Core.CrossCuttingConcerns.Context;
+using Core.Extensions;
 
 namespace Tests.Business.HandlersTest
 {
@@ -27,11 +30,22 @@ namespace Tests.Business.HandlersTest
     {
         Mock<IEmployeeRepository> _employeeRepository;
         Mock<IMediator> _mediator;
+        Mock<IAppContextService> _appContextService;
+
         [SetUp]
         public void Setup()
         {
             _employeeRepository = new Mock<IEmployeeRepository>();
             _mediator = new Mock<IMediator>();
+            _appContextService = new Mock<IAppContextService>();
+
+            var appContextInstance = new BabuAppContext
+            {
+                UserId = 1,
+                OrganizationId = 1 
+            };
+
+            _appContextService.Setup(a => a.GetAppContext()).Returns(appContextInstance);
         }
 
         [Test]
@@ -50,7 +64,7 @@ namespace Tests.Business.HandlersTest
                                    OrganizationId = 1
                                });
 
-            var handler = new GetEmployeeQueryHandler(_employeeRepository.Object, _mediator.Object);
+            var handler = new GetEmployeeQueryHandler(_employeeRepository.Object, _mediator.Object, _appContextService.Object);
 
             //Act
             var result = await handler.Handle(query, new CancellationToken());
@@ -60,7 +74,6 @@ namespace Tests.Business.HandlersTest
             result.Data.Should().NotBeNull();
             result.Data.FirstName.Should().Be("John");
         }
-
 
         [Test]
         public async Task Employee_GetQueries_Success()
@@ -109,7 +122,6 @@ namespace Tests.Business.HandlersTest
                 LastName = "Doe",
                 Email = "john.doe@example.com",
                 PhoneNumber = "1234567890",
-                OrganizationId = 1,
                 Salary = 50000M
             };
 
@@ -122,7 +134,7 @@ namespace Tests.Business.HandlersTest
                                .Callback<Employee>(emp => addedEmployee = emp)
                                .Returns(() => addedEmployee);
 
-            var handler = new CreateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object);
+            var handler = new CreateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object, _appContextService.Object);
 
             //Act
             var result = await handler.Handle(command, new CancellationToken());
@@ -145,7 +157,6 @@ namespace Tests.Business.HandlersTest
                 LastName = "Doe",
                 Email = "john.doe@example.com",
                 PhoneNumber = "1234567890",
-                OrganizationId = 1,
                 Salary = 50000M
             };
 
@@ -165,7 +176,7 @@ namespace Tests.Business.HandlersTest
 
             _employeeRepository.Setup(x => x.Add(It.IsAny<Employee>())).Returns(new Employee());
 
-            var handler = new CreateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object);
+            var handler = new CreateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object, _appContextService.Object);
 
             //Act
             var result = await handler.Handle(command, new CancellationToken());
@@ -189,7 +200,7 @@ namespace Tests.Business.HandlersTest
 
             _employeeRepository.Setup(x => x.Update(It.IsAny<Employee>())).Returns(new Employee());
 
-            var handler = new UpdateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object);
+            var handler = new UpdateEmployeeCommandHandler(_employeeRepository.Object, _mediator.Object, _appContextService.Object);
             var x = await handler.Handle(command, new System.Threading.CancellationToken());
 
             _employeeRepository.Verify(x => x.SaveChangesAsync());

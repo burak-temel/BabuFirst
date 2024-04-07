@@ -4,8 +4,8 @@ namespace Core.CrossCuttingConcerns.Context
 {
     public interface IAppContextService
     {
-        void SetAppContext(Extensions.AppContext appContext);
-        Extensions.AppContext GetAppContext();
+        void SetAppContext(Extensions.BabuAppContext appContext);
+        Extensions.BabuAppContext GetAppContext();
     }
 
 }

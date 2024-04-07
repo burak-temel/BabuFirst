@@ -9,14 +9,14 @@ namespace Core.CrossCuttingConcerns.Context
 
     public class AppContextService : IAppContextService
     {
-        private Extensions.AppContext _appContext;
+        private Extensions.BabuAppContext _appContext;
 
-        public void SetAppContext(Extensions.AppContext appContext)
+        public void SetAppContext(Extensions.BabuAppContext appContext)
         {
             _appContext = appContext;
         }
 
-        public Extensions.AppContext GetAppContext()
+        public Extensions.BabuAppContext GetAppContext()
         {
             return _appContext;
         }
